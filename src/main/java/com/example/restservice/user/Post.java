@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
-    @Id
-    @GeneratedValue
+//    @Id
+//    @GeneratedValue
     private Integer id;
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore //연관관계는 설정하고 출력은 하지 않겠다
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnore //연관관계는 설정하고 출력은 하지 않겠다
     private User user;
 }

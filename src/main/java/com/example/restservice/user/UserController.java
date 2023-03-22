@@ -26,37 +26,37 @@ public class UserController {
         return service.findAll();
     }
 
-//    @GetMapping("/users/{id}")
-//    public EntityModel<User> retrieveOneUser(@PathVariable int id){
-//        User user = service.findOne(id);
-//
-//        if(user == null){
-//            throw new UserNotFoundException(String.format("ID[%s] not found", id));
-//        }
-//
-//
-//        return EntityModel.of(user,
-//                linkTo(methodOn(UserController.class).retrieveAllUsers()).withRel("all-users"));
-//    }
-//
-//    @PostMapping("/users")
-//    public ResponseEntity createUser(@Valid @RequestBody User user){
-//        User savedUser = service.save(user);
-//
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(savedUser.getId())
-//                .toUri();
-//
-//        return ResponseEntity.created(location).build();
-//    }
-//
-//    @DeleteMapping("/users/{id}")
-//    public void deleteUser(@PathVariable int id){
-//        User user = service.deleteById(id);
-//
-//        if(user == null){
-//            throw new UserNotFoundException(String.format("ID[%s] not found", id));
-//        }
-//    }
+    @GetMapping("/users/{id}")
+    public EntityModel<User> retrieveOneUser(@PathVariable int id){
+        User user = service.findOne(id);
+
+        if(user == null){
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+
+
+        return EntityModel.of(user,
+                linkTo(methodOn(UserController.class).retrieveAllUsers()).withRel("all-users"));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity createUser(@Valid @RequestBody User user){
+        User savedUser = service.save(user);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(savedUser.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id){
+        User user = service.deleteById(id);
+
+        if(user == null){
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+    }
 }

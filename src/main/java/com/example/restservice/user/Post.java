@@ -20,5 +20,6 @@ public class Post {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonIgnore //연관관계는 설정하고 출력은 하지 않겠다
-    private User user;
+//    private User user;
+    private int user_id;
 }

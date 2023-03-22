@@ -27,25 +27,28 @@ public class UserService {
         return userMapper.findAllUsers();
     }
 
-//    public User findOne(int id){
+    public User findOne(int id){
 //        for(User user : users){
 //            if(user.getId() == id){
 //                return user;
 //            }
 //        }
 //        return null;
-//    }
-//
-//    public User save(User user){
+        return userMapper.findUser(id);
+    }
+
+    public User save(User user){
 //        if(user.getId() == null){
 //            user.setId(++usersCount);
 //        }
 //        users.add(user);
 //
 //        return user;
-//    }
-//
-//    public User deleteById(int id){
+        userMapper.createUser(user);
+        return user;
+    }
+
+    public User deleteById(int id){
 //        Iterator<User> iterator = users.iterator();
 //
 //        while(iterator.hasNext()){
@@ -58,5 +61,7 @@ public class UserService {
 //        }
 //
 //        return null;
-//    }
+        User deletedUser = userMapper.findUser(id);
+        return userMapper.deleteUser(id) == true ? deletedUser : null;
+    }
 }

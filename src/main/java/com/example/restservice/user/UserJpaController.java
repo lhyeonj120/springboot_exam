@@ -1,29 +1,35 @@
-//package com.example.restservice.user;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.hateoas.EntityModel;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-//
-//import javax.swing.text.html.Option;
-//import java.net.URI;
-//import java.util.List;
-//import java.util.Optional;
-//
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-//import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-//
-//@RestController
-//@RequestMapping("/jpa")
-//public class UserJpaController {
-//
+package com.example.restservice.user;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.swing.text.html.Option;
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+@RestController
+@RequestMapping("/jpa")
+public class UserJpaController {
+
 //    @Autowired
 //    private UserRepository userRepository;
 //
 //    @Autowired
 //    private PostRepository postRepository;
-//
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private PostService postService;
+
 //    @GetMapping("/users")
 //    public List<User> retrieveAllUsers(){
 //        return userRepository.findAll();
@@ -62,9 +68,9 @@
 //        //200 OK -> 201 OK
 //        return ResponseEntity.created(location).build();
 //    }
-//
-//    @GetMapping("/users/{id}/posts")
-//    public List<Post> retrieveAllPostByUser(@PathVariable int id){
+
+    @GetMapping("/users/{id}/posts")
+    public List<Post> retrieveAllPostByUser(@PathVariable int id){
 //        Optional<User> user = userRepository.findById(id);
 //
 //        if(!user.isPresent()){
@@ -72,10 +78,11 @@
 //        }
 //
 //        return user.get().getPosts();
-//    }
-//
-//    @PostMapping("/users/{id}/posts")
-//    public ResponseEntity<Post> createPost(@PathVariable int id, @RequestBody Post post){
+        return userService.findOne(id).getPosts();
+    }
+
+    @PostMapping("/users/{id}/posts")
+    public ResponseEntity<Post> createPost(@PathVariable int id, @RequestBody Post post){
 //        Optional<User> user = userRepository.findById(id);
 //
 //        if(!user.isPresent()){
@@ -91,5 +98,21 @@
 //                .toUri();
 //
 //        return ResponseEntity.created(location).build();
-//    }
-//}
+
+        User user = userService.findOne(id);
+
+        if(user == null){
+            throw new UserNotFoundException(String.format("ID[%s] not found", id));
+        }
+
+        postService.save(post);
+        user.getPosts().add(post);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(post.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+}

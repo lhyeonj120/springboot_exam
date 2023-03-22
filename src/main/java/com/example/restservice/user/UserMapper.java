@@ -9,4 +9,5 @@ public interface UserMapper {
     public List<User> findAllUsers();
     public User findUser(int id);
     public void createUser(User user);
+    public boolean deleteUser(int id);
 }

@@ -19,6 +19,6 @@ public class Post {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonIgnore //연관관계는 설정하고 출력은 하지 않겠다
     private User user;
 }

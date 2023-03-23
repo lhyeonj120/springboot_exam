@@ -78,7 +78,7 @@ public class UserJpaController {
 //        }
 //
 //        return user.get().getPosts();
-        return userService.findOne(id).getPosts();
+        return postService.retrieveAllPostByUser(id);
     }
 
     @PostMapping("/users/{id}/posts")
@@ -105,8 +105,8 @@ public class UserJpaController {
             throw new UserNotFoundException(String.format("ID[%s] not found", id));
         }
 
+        post.setUser_id(id);
         postService.save(post);
-        user.getPosts().add(post);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

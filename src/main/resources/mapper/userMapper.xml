@@ -21,22 +21,6 @@
         delete from users where id = #{id}
     </delete>
 
-    <resultMap id="userMap" type="User">
-        <result property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="joinDate" column="joinDate"/>
-        <result property="password" column="password"/>
-        <result property="ssn" column="ssn"/>
-        <collection property="posts" resultMap="postMap"/>
-    </resultMap>
 
-    <resultMap id="postMap" type="Post">
-        <result property="id" column="id"/>
-        <result property="description" column="description"/>
-    </resultMap>
-
-<!--    <select id="findUser" resultMap="userMap">-->
-<!--        select * from users join post on users.id = post.id where users.id = #{id}-->
-<!--    </select>-->
 
 </mapper>
